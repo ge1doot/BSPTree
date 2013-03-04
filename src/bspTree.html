@@ -6,12 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="HandheldFriendly" content="true">
-<meta name="description" content="XXXXXX - HTML5 CANVAS BSP Tree Demo">
-<meta name="keywords" content="canvas,3d,BSP,Binary Space Partitioning">
-<link rel="canonical" href="http://www.dhteumeuleu.com/XXXXXX">
-<!--cssnav-->
+<meta name="description" content="pure energy - HTML5 CANVAS BSP Tree Demo">
+<meta name="keywords" content="canvas,3D,BSP,BSP Tree,Binary Space Partitioning">
+<link rel="canonical" href="http://www.dhteumeuleu.com/pure-energy">
+<!--cssnav-wb-->
 <link rel="shortcut icon" href="/favicon.ico"/>
-<title>XXXXXX - HTML5 3d BSP Tree Demo</title>
+<title>pure energy - HTML5 3D BSP Tree Demo</title>
 <style>
 html {
 	overflow: hidden;
@@ -52,14 +52,23 @@ body {
 
 (function () {
 
-	var scr, ctx, pointer, world, cx = 0, cy = 0,
+	var scr, ctx, pointer, world,
+	cx = 0, cy = 0, lx = 0, ly = 0,
 	//	classification type for plane comparisons
 	HC_IN = -1, HC_ON = 0, HC_OUT = 1, HC_SPANNING = 2,
-	INFINITY = 100000, EPSILON  = 1 / 100000,
+	INFINITY = 100000,
+	EPSILON  = 1 / 100000,
 	transformation = [], inverse = [], viewing = [], eye = [],
-	p0 = [], p1 = [], p2 = [], inverse = [].inverse,
-	xsize, ysize, aspect, light, ambiantLight,
-	outp, inp, frame = 2;
+	p0 = [], p1 = [], p2 = [],
+	inverse = [].inverse,
+	xsize,
+	ysize,
+	aspect,
+	light,
+	ambiantLight,
+	outp,
+	inp,
+	frame = 2;
 
 //------------------------------------------------------------------------------
 //	 construct polygon 
@@ -228,7 +237,7 @@ body {
 					//	set the polygon classification to spanning
 					poly_class = HC_SPANNING;
 				}
-				//	if the previous point3d was on the opposite side of the plane
+				//	if the previous point was on the opposite side of the plane
 				if (sideA > EPSILON) {
 					//	compute the vector between the points
 					var v = ptB.subtract(ptA);
@@ -774,12 +783,15 @@ body {
 
 	var run = function () {
 		
-		//	move ligth vector
-		light[0] = ( pointer.X - xsize) / (2 * xsize);
-		light[1] = (-pointer.Y + ysize) / (2 * ysize);
 		//	rotation angles
 		cx += (pointer.Xi - cx) * 0.05;
 		cy += (pointer.Yi - cy) * 0.05;
+		//	light
+		lx += (pointer.X - lx) * 0.05;
+		ly += (pointer.Y - ly) * 0.05;
+		//	move ligth vector
+		light[0] = ( lx - xsize) / (2 * xsize);
+		light[1] = (-ly + ysize) / (2 * ysize);
 		//	draw the scene
 		drawScene (0.2 - cy * 0.02, -1 + cx * 0.02, 0);
 		//	next frame
@@ -804,21 +816,21 @@ body {
 //------------------------------------------------------------------------------
 
 })().load([
-	['cube',	 1, [].identity().scale(-5,-2.5,-5), [1.5,1.5,1.5,0.6], true],								//	outside walls (nosplit flag)
-	['cube',	 1, [].identity()],																			//	insert a basic cube
-	['cube',	-1, [].identity().scale(-1.5, -0.875, -1.5).translate(0.625, 0, 0), [1,0.5,0]],				//	cut out the cube to make a big "C"
-	['cube',	 1, [].identity().scale(0.15, 0.4, 0.4).translate(-0.95, 0, 0).rotateX(45), [0.1,0.1,0.1]],	//	window frame
-	['cube',	-1, [].identity().scale(-0.3, -0.3, -0.3).translate(-1,0,0).rotateX(45), [0.5,0.5,0.5]],	//	window hole
-	['cube',	 1, [].identity().scale(0.15, 0.4, 0.4).translate(0.8, 0, 0).rotateX(45), [0.1,0.1,0.1]],	//	window frame
-	['cube',	 1, [].identity().scale(0.0625, 1.8, 0.0625).translate(0.8,0,0)],							//	support
-	['cube',	-1, [].identity().scale(-1.2, -0.3, -0.3).translate(0.8,0,0).rotateX(45), [0.5,0.5,0.5]],	//	window hole
-	['diamond',	 1, [].identity().rotateZ(90).scale(4, 0.15, 0.15).rotateX(45), [2,1,0]],					//	long diamond
-	['pyramid',	 1, [].identity().scale(0.5,0.5,0.5).translate(0,-1.25,0).rotateZ(180), [0.7,0.7,0.7,0]],	//	pyramid
-	['pyramid',	 1, [].identity().scale(0.5,0.5,0.5).translate(0,-1.25,0), [0.7,0.7,0.7,0]],				//	pyramid
-	['cube',	 1, [].identity().scale(0.5,0.05,0.5).translate(0,-1.4,0),[0.7,0.7,0.7,0]],					//	slab
-	['cube',	 1, [].identity().scale(0.51,0.05,0.51).translate(0,-1.6,0), [1,0.5,0]],					//	slab
-	['cube',	 1, [].identity().scale(0.5,0.05,0.5).translate(0,1.4,0),[0.7,0.7,0.7,0]],					//	slab
-	['cube',	 1, [].identity().scale(0.51,0.05,0.51).translate(0,1.6,0), [1,0.5,0]]						//	slab
+	['cube',     1, [].identity().scale(-5,-2.5,-5), [1.5,1.5,1.5,0.6], true], // outside walls (nosplit flag)
+	['cube',     1, [].identity()], // insert a basic cube
+	['cube',    -1, [].identity().scale(-1.5, -0.875, -1.5).translate(0.625, 0, 0), [1,0.5,0]], // cut out the cube to make a big "C"
+	['cube',     1, [].identity().scale(0.15, 0.4, 0.4).translate(-0.95, 0, 0).rotateX(45), [0.1,0.1,0.1]], // window frame
+	['cube',    -1, [].identity().scale(-0.3, -0.3, -0.3).translate(-1,0,0).rotateX(45), [0.5,0.5,0.5]], // window hole
+	['cube',     1, [].identity().scale(0.15, 0.4, 0.4).translate(0.8, 0, 0).rotateX(45), [0.1,0.1,0.1]], // window frame
+	['cube',     1, [].identity().scale(0.0625, 1.8, 0.0625).translate(0.8,0,0)], // support
+	['cube',    -1, [].identity().scale(-1.2, -0.3, -0.3).translate(0.8,0,0).rotateX(45), [0.5,0.5,0.5]], // window hole
+	['diamond',  1, [].identity().rotateZ(90).scale(4, 0.15, 0.15).rotateX(45), [2,1,0]], // long diamond
+	['pyramid',  1, [].identity().scale(0.5,0.5,0.5).translate(0,-1.25,0).rotateZ(180), [0.7,0.7,0.7,0]], // pyramid
+	['pyramid',  1, [].identity().scale(0.5,0.5,0.5).translate(0,-1.25,0), [0.7,0.7,0.7,0]], // pyramid
+	['cube',     1, [].identity().scale(0.5,0.05,0.5).translate(0,-1.4,0),[0.7,0.7,0.7,0]], // slab
+	['cube',     1, [].identity().scale(0.51,0.05,0.51).translate(0,-1.6,0), [1,0.5,0]], // slab
+	['cube',     1, [].identity().scale(0.5,0.05,0.5).translate(0,1.4,0),[0.7,0.7,0.7,0]], // slab
+	['cube',     1, [].identity().scale(0.51,0.05,0.51).translate(0,1.6,0), [1,0.5,0]] // slab
 
 ]);
 </script>
