@@ -9,3 +9,5 @@ ftp://ftp.sgi.com/other/bspfaq/
 
 Demo: http://htmlpreview.github.com/?https://github.com/ge1doot/BSPTree/blob/master/src/bspTree.html
 
+![ScreenShot](https://raw.github.com/ge1doot/BSPTree/master/images/pure-energy.png)
+
